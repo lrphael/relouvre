@@ -8,16 +8,17 @@ type buttonType = {
 export default function MenuButton(props: buttonType) {
   return (
     <Box w={{ base: '100%' }} display='flex' alignContent={'center'} justifyContent={'center'} my={2} role="group">
-      <Button bg='gray.800' textAlign='left' w={{ base: '90%' }}
+      <Button bg=' ' textAlign='left' w={{ base: '90%' }}
         _hover={{
-          background: 'gray.700',
+          background: '',
         }} >
         <ChevronRightIcon color='yellow.400' />
         <Text textAlign='left'
           w={{ base: '100%' }}
-          color='gray'
+          color='white'
           _groupHover={{
-            color: 'whitesmoke'
+            color: 'black',
+            fontWeight: 'bold'
           }} >
           {props.name}
         </Text>

@@ -6,6 +6,7 @@ import NewsHeader from "../../components/dashboard/news-header";
 
 
 export default function Dashboard() {
+  const leftBarW = '15%'
   return (
     <div className="Dashboard"
       style={{
@@ -15,7 +16,7 @@ export default function Dashboard() {
     >
       
       <Flex h={'100%'}>
-        <Box w={{ base: '15%' }} h={{ base: '100%' }}>
+        <Box w={{ base: leftBarW }} h={{ base: '100%' }}>
           <LeftSideMenu />
         </Box>
 
@@ -25,7 +26,7 @@ export default function Dashboard() {
             <NewsHeader />
           </Box>
           <Box w={{ base: '100%' }} h={{ base: '75%' }}  >
-            <Box w={{ base: '98%' }} h={{ base: '100%' }} bg='gray.800' borderRadius={10} />
+            <Box w={{ base: '98%' }} h={{ base: '100%' }} bg='#27293d;' borderRadius={10} />
           </Box>
         </Flex>
 

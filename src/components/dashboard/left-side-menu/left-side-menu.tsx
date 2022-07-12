@@ -9,7 +9,21 @@ export default function LeftSideMenu() {
     </ListItem>
   );
   return (
-    <Box h={{ base: '100%' }} bg='gray.800' borderRadius={10} pt={5}>
+    <Box h={{ base: '100%' }} 
+    bg='linear-gradient(0deg,#ba54f5,#e14eca)' 
+    borderRadius={10} 
+    pt={5}
+    _before={{
+      content: `''`,
+      position: 'absolute',
+      borderLeft: '10px solid transparent',
+      borderRight: '10px solid transparent',
+      borderBottom: '10px solid #e14eca',
+      top: '82px',
+      left: '40px',
+      transform: 'translate(-50%)'
+    }}
+    >
       <List spacing={3}>
         {listElements}
       </List>

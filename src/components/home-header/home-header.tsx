@@ -1,4 +1,5 @@
 
+import { HamburgerIcon } from '@chakra-ui/icons';
 import {
   Box,
   Flex,
@@ -32,9 +33,11 @@ export default function HomeHeader() {
   return (
     <>
       <Flex justifyContent={'space-between'} position={'absolute'}>
-        <Box bg='gray.800' px={4} w={'100vw'} mx={'auto'}  h={{ base: '62px' }}>
+        <Box bg='' px={4} w={'100vw'} mx={'auto'} h={{ base: '62px' }}>
           <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-            <div></div>
+            <HStack ml={2} fontSize='2rem'>
+              <HamburgerIcon color='white' cursor={'pointer'}/>
+            </HStack>
             <HStack spacing={8} alignItems={'center'}>
               <NavLink key={'home'}>{['Home', '/']}</NavLink>
               <NavLink key={'dashboard'}>{['Dashboard', 'dashboard']}</NavLink>
