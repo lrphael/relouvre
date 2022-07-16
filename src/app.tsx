@@ -1,8 +1,9 @@
-import { Grid, GridItem } from '@chakra-ui/react';
+import { Box, Grid, GridItem } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import { Route, Routes } from 'react-router-dom';
 
 import HomeHeader from './components/home-header/home-header';
+import { Wallet } from './contexts/wallet';
 import Dashboard from './pages/dashboard/dashboard';
 import Home from './pages/home/home';
 

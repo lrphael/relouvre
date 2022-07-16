@@ -8,6 +8,7 @@ import {
   useColorModeValue
 } from '@chakra-ui/react';
 import { ReactNode } from 'react';
+import { Wallet } from '../../contexts/wallet';
 // import { Link } from 'react-router-dom';
 
 const Links = ['Dashboard', 'Projects', 'Team'];
@@ -36,11 +37,14 @@ export default function HomeHeader() {
         <Box bg='' px={4} w={'100vw'} mx={'auto'} h={{ base: '62px' }}>
           <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
             <HStack ml={2} fontSize='2rem'>
-              <HamburgerIcon color='white' cursor={'pointer'}/>
+              <HamburgerIcon color='white' cursor={'pointer'} />
             </HStack>
             <HStack spacing={8} alignItems={'center'}>
               <NavLink key={'home'}>{['Home', '/']}</NavLink>
               <NavLink key={'dashboard'}>{['Dashboard', 'dashboard']}</NavLink>
+            </HStack>
+            <HStack spacing={2} alignItems={'right-side'}>
+              <Wallet />
             </HStack>
             <div></div>
           </Flex>
