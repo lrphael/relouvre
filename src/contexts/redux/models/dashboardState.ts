@@ -1,4 +1,4 @@
 export type DashboardState = {
+  leftMenuShow: boolean
   leftMenuOpen: boolean,
-  leftMenuCompress: boolean
 }

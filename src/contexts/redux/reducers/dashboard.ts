@@ -5,7 +5,7 @@ import { DashboardState } from "../models/dashboardState";
 
 const initialStateHere: DashboardState = {
   leftMenuOpen: false,
-  leftMenuCompress: false
+  leftMenuShow: false
 };
 
 const reducer = (state: DashboardState = initialStateHere, action: AppActionTypes) => {

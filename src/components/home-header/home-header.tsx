@@ -1,21 +1,21 @@
 
-import { HamburgerIcon } from '@chakra-ui/icons';
+import { ReactNode } from 'react';
+import { Link } from 'react-router-dom';
+
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { State, dashboardActions } from '../../contexts/redux';
+
 import {
   Box,
   Flex,
   HStack
 } from '@chakra-ui/react';
-import { ReactNode } from 'react';
-import { BrowserRouter, Link } from 'react-router-dom';
-
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { State, globalActions, dashboardActions } from '../../contexts/redux';
 import styled from '@emotion/styled';
-// import { Link } from 'react-router-dom';
 
-const Links = ['Dashboard', 'Projects', 'Team'];
+import LeftMenuButton from './left-menu-button'; 
+
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -28,20 +28,7 @@ const StyledLink = styled(Link)`
   }
 `;
 const NavLink = ({ children }: { children: ReactNode[] }) => (
-
   <StyledLink to={`${children[1]}`}>{children[0]}</StyledLink>
-  // <Link
-  //   px={5}
-  //   py={3}
-  //   rounded={'md'}
-  //   _hover={{
-  //     textDecoration: 'none',
-  //     bg: 'gray.600',
-  //     fontSize: 20
-  //   }}
-  //   href={`${children[1]}`}>
-  //   {children[0]}
-  // </Link>
 );
 
 
@@ -50,28 +37,34 @@ export default function HomeHeader() {
   const { setLeftMenuState } = bindActionCreators(dashboardActions, dispatch);
   const dashboardState = useSelector((state: State) => state.dashboard);
 
-
-  console.log('newChange: ', dashboardState);
-  let openMenu = (e: any) => {
-    setLeftMenuState({ leftMenuOpen: !dashboardState.leftMenuOpen, leftMenuCompress: false })
+  let activeMenu = (e: any) => {
+    setLeftMenuState(
+      {
+        ...dashboardState,
+        leftMenuShow: true
+      }
+    )
+  };
+  let desactiveMenu = (e: any) => {
+    setLeftMenuState(
+      {
+        ...dashboardState,
+        leftMenuShow: false
+      }
+    )
   };
 
-  const showMenu = (e: any) => {
-    <HStack ml={2} fontSize='10px'>
-      <HamburgerIcon color='white' cursor={'pointer'} />
-    </HStack>
-  };
+  let showMenu = dashboardState.leftMenuShow ? <LeftMenuButton /> : <div></div>;
 
-  
   return (
     <>
       <Flex justifyContent={'space-between'} position={'absolute'}>
         <Box bg='' px={4} w={'100vw'} mx={'auto'} h={{ base: '62px' }}>
           <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-            {/* {showMenu} */}
+            {showMenu}
             <HStack spacing={8} alignItems={'center'}>
-              <NavLink key={'home'}>{['Home', '/']}</NavLink>
-              <div onClick={openMenu}><NavLink key={'dashboard'}>{['Dashboard', 'dashboard']}</NavLink></div>
+              <div onClick={desactiveMenu}><NavLink key={'home'}>{['Home', '/']}</NavLink></div>
+              <div onClick={activeMenu}><NavLink key={'dashboard'}>{['Dashboard', 'dashboard']}</NavLink></div>
             </HStack>
             <div></div>
           </Flex>
