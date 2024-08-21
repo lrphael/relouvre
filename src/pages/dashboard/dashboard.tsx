@@ -1,5 +1,11 @@
 import { Box, Flex } from "@chakra-ui/react";
 
+
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { State, dashboardActions } from '../../contexts/redux';
+
 import LeftSideMenu from "../../components/dashboard/left-side-menu/left-side-menu";
 import NewsHeader from "../../components/dashboard/news-header";
 import { SendOneLamportToRandomAddress } from "../../contexts/send";
@@ -8,6 +14,19 @@ import { Connection, clusterApiUrl, Keypair, PublicKey } from "@solana/web3.js";
 import NftListTest from "../../components/dashboard/nftlisttest";
 
 export default function Dashboard() {
+  const dispatch = useDispatch();
+  const { setLeftMenuState } = bindActionCreators(dashboardActions, dispatch);
+  const dashboardState = useSelector((state: State) => state.dashboard);
+
+  if (!dashboardState.leftMenuShow) {
+    setLeftMenuState(
+      {
+        ...dashboardState,
+        leftMenuShow: true
+      }
+    );
+  }
+
   const leftBarW = '15%'
   return (
     <div className="Dashboard"
