@@ -5,22 +5,9 @@ import NewsHeader from "../../components/dashboard/news-header";
 import { SendOneLamportToRandomAddress } from "../../contexts/send";
 import { Metaplex, keypairIdentity, bundlrStorage } from "@metaplex-foundation/js";
 import { Connection, clusterApiUrl, Keypair, PublicKey } from "@solana/web3.js";
-
-const main = async() => {
-  const connection = new Connection(clusterApiUrl("mainnet-beta"));
-  const wallet = Keypair.generate();
-
-  const metaplex = Metaplex.make(connection)
-      .use(keypairIdentity(wallet))
-      .use(bundlrStorage());
-
-  const owenerPublicKey = new PublicKey("3sEbhF2jnNs5RB2ohFunmCiywFgHZokLWwSxGGAsmWMd");
-  const myNfts = await metaplex.nfts().findAllByOwner(owenerPublicKey).run()
-  console.log(myNfts);
-};
+import NftListTest from "../../components/dashboard/nftlisttest";
 
 export default function Dashboard() {
-  main()
   const leftBarW = '15%'
   return (
     <div className="Dashboard"
@@ -42,7 +29,7 @@ export default function Dashboard() {
           </Box>
           <Box w={{ base: '100%' }} h={{ base: '75%' }}  >
             <Box w={{ base: '98%' }} h={{ base: '100%' }} bg='#27293d;' borderRadius={10}>
-              <SendOneLamportToRandomAddress />
+            <NftListTest/>
             </Box>
           </Box>
         </Flex>

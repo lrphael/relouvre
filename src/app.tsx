@@ -6,6 +6,8 @@ import HomeHeader from './components/home-header/home-header';
 import { Wallet } from './contexts/wallet';
 import Dashboard from './pages/dashboard/dashboard';
 import Home from './pages/home/home';
+import { Metaplex, keypairIdentity, bundlrStorage } from "@metaplex-foundation/js";
+import { Connection, clusterApiUrl, Keypair, PublicKey } from "@solana/web3.js";
 
 const Header = styled.div`
   position: absolute;
