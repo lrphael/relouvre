@@ -11,7 +11,10 @@ import './index.css';
 
 import App from './app';
 import customTheme from './contexts/theme';
-
+import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
+import { useMemo } from 'react';
+import { clusterApiUrl } from '@solana/web3.js';
+import { ConnectionProvider } from '@solana/wallet-adapter-react';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
