@@ -18,6 +18,7 @@ import {
 } from '@solana/wallet-adapter-react-ui';
 import { clusterApiUrl } from '@solana/web3.js';
 import { createDefaultAuthorizationResultCache, SolanaMobileWalletAdapter } from '@solana-mobile/wallet-adapter-mobile';
+import { SendOneLamportToRandomAddress } from './send';
 
 // Default styles that can be overridden by your app
 require('@solana/wallet-adapter-react-ui/styles.css');
@@ -53,6 +54,7 @@ export const Wallet: FC = () => {
             <WalletProvider wallets={wallets} autoConnect>
                 <WalletModalProvider>
                     <WalletMultiButton />
+                    <SendOneLamportToRandomAddress/>
                 </WalletModalProvider>
             </WalletProvider>
         </ConnectionProvider>

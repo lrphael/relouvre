@@ -46,7 +46,6 @@ export default function HomeHeader() {
             <HStack spacing={2} alignItems={'right-side'}>
               <Wallet />
             </HStack>
-            <div></div>
           </Flex>
 
         </Box>
