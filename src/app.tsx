@@ -8,11 +8,6 @@ import Dashboard from './pages/dashboard/dashboard';
 import Home from './pages/home/home';
 import { Metaplex, keypairIdentity, bundlrStorage } from "@metaplex-foundation/js";
 import { Connection, clusterApiUrl, Keypair, PublicKey } from "@solana/web3.js";
-import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
-import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
-import { useMemo } from 'react';
-import { createDefaultAuthorizationResultCache, SolanaMobileWalletAdapter } from '@solana-mobile/wallet-adapter-mobile';
-import { CoinbaseWalletAdapter, GlowWalletAdapter, PhantomWalletAdapter, SlopeWalletAdapter, SolflareWalletAdapter, TorusWalletAdapter } from '@solana/wallet-adapter-wallets';
 
 const Header = styled.div`
   position: absolute;

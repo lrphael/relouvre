@@ -1,83 +1,75 @@
-import './../../App.css';
-import { Metadata, Metaplex } from "@metaplex-foundation/js";
+import { findMasterEditionV2Pda, findNftsByMintListOperation, LazyMetadata, LazyNft, LoadNftInput, Metadata, Metaplex, Nft, TokenProgram, toMintAccount, toOriginalOrPrintEditionAccount } from "@metaplex-foundation/js";
 import { clusterApiUrl, Commitment, Connection, PublicKey } from "@solana/web3.js";
 import { useState } from "react";
-import { Badge, Box, Button, Container, Flex, Grid, HStack, Image, Input, PinInputDescendantsProvider, SimpleGrid, Stack, Text, VStack, Wrap, WrapItem } from "@chakra-ui/react";
-import { useWallet } from '@solana/wallet-adapter-react';
+import { Box, Flex, Image, Text, Wrap, WrapItem } from "@chakra-ui/react";
 
 const connection = new Connection(clusterApiUrl("mainnet-beta"));
 const mx = Metaplex.make(connection);
 
 function NftListTest() {
   const [address, setAddress] = useState(
-    "8hTYASw98ZCZJwuEF9apPhmQTW7TYaoh9AnJfeV2X5tx"
+    "3sEbhF2jnNs5RB2ohFunmCiywFgHZokLWwSxGGAsmWMd"
   );
-
-  const publicKey = useWallet().publicKey;
-
-  console.log(publicKey?.toBase58());
-
-  const [nftMetadata, setMetadata] = useState<Metadata[] | null>(null);
-  const [load, setLoad] = useState<Metadata[] | null>(null);
+  const [nft, setNft] = useState<Metadata | null>(null);
   const fetchNft = async () => {
     const nft = await mx.nfts().findAllByOwner(new PublicKey(address)).run()
 
-    const metadata: Metadata[] = await Promise.all(nft.map(async (nftLazy) => {
-      let lazyMetadata: any = {
-        ...nftLazy,
-        model: 'metadata',
-        address: nftLazy.metadataAddress,
-      };
+    const metadata: (Metadata | null)[] = await Promise.all(nft.map(async (nftLazy) => {
+      try {
+        let lazyMetadata: any = {
+          ...nftLazy,
+          model: 'metadata',
+          address: nftLazy.metadataAddress,
+        };
 
-      const data = await mx
-        .nfts()
-        .loadMetadata(lazyMetadata)
-        .run();
+        const data = await mx
+          .nfts()
+          .loadMetadata(lazyMetadata)
+          .run();
+          
+        return data;
 
-      return data;
+      } catch (e) {
+        return null;
+      }
 
     }))
 
     console.log(metadata);
 
-    setMetadata(metadata);
+    setNft(metadata[1]);
 
   };
 
   return (
-    <div>
-      <Flex>
-        <Input m="10px"
-          value={address}
-          onChange={(event) => setAddress(event.target.value)} />
-        <Button m="10px" onClick={fetchNft}>Fetch</Button>
-      </Flex>
-
-      <Flex
-        direction="column"
-        justifyContent="center"
-      >
-        <Grid
-          w="full"
-
-          gridGap="5"
-          gridTemplateColumns="repeat( auto-fit, minmax(250px, 1fr) )">
-
-          {nftMetadata?.map((nft) => (
-            <Stack border='1px solid white' className="img-container">
-
+    <div className="App">
+      <div className="container">
+        <h1 className="title">NFT Mint Address</h1>
+        <div className="nftForm">
+          <input
+            type="text"
+            value={address}
+            onChange={(event) => setAddress(event.target.value)}
+          />
+          <button onClick={fetchNft}>Fetch</button>
+        </div>
+        {nft && (
+          <div className="nftPreview">
+            <h1>{nft.name}</h1>
+            <Box w='250px' bg='#27293d' borderRadius={10}>
               <Image
-                objectFit={'contain'}
-                width='100%'
-                height='100%'
-                src={nft.json?.image}
-                alt="The downloaded illustration of the provided NFT address."
-              />
-              <Text color={'white'} fontSize={12} align={'center'}> <strong>{nft.name}</strong> </Text>
-            </Stack>
-          ))}
-        </Grid>
-      </Flex>
+                m={2} mx={'auto'} w='90%' h='70%'
+                borderTopStartRadius={10}
+                borderTopEndRadius={10}
+                border='1px solid whitesmoke'
+                objectFit='cover'
+              src={nft.json?.image}
+              alt="The downloaded illustration of the provided NFT address."
+            />
+            </Box>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
