@@ -12,8 +12,12 @@ import { SendOneLamportToRandomAddress } from "../../contexts/send";
 import { Metaplex, keypairIdentity, bundlrStorage } from "@metaplex-foundation/js";
 import { Connection, clusterApiUrl, Keypair, PublicKey } from "@solana/web3.js";
 import NftListTest from "../../components/dashboard/nftlisttest";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 export default function Dashboard() {
+  
+  const publicKey = useWallet().publicKey;
+  
   const dispatch = useDispatch();
   const { setLeftMenuState } = bindActionCreators(dashboardActions, dispatch);
   const dashboardState = useSelector((state: State) => state.dashboard);
@@ -47,8 +51,9 @@ export default function Dashboard() {
             <NewsHeader />
           </Box>
           <Box w={{ base: '100%' }} h={{ base: '75%' }}  >
-            <Box w={{ base: '98%' }} h={{ base: '100%' }} bg='#27293d;' borderRadius={10}>
-            <NftListTest/>
+            <Box w={{ base: '98%' }} h={{ base: '100%' }} bg='#27293d;' borderRadius={10} hidden={!publicKey}>
+              <NftListTest/>
+                <SendOneLamportToRandomAddress />
             </Box>
           </Box>
         </Flex>

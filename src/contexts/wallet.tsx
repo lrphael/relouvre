@@ -26,13 +26,8 @@ require('@solana/wallet-adapter-react-ui/styles.css');
 export const Wallet: FC = () => {
 
     return (
-        <ConnectionProvider endpoint={endpoint}>
-            <WalletProvider wallets={wallets} autoConnect>
-                <WalletModalProvider>
-                    <WalletMultiButton />
-                    <SendOneLamportToRandomAddress/>
-                </WalletModalProvider>
-            </WalletProvider>
-        </ConnectionProvider>
+            <WalletModalProvider>
+                <WalletMultiButton />
+            </WalletModalProvider>
     );
 };
