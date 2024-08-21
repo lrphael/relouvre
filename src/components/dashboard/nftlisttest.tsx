@@ -1,75 +1,79 @@
+import './../../App.css';
 import { findMasterEditionV2Pda, findNftsByMintListOperation, LazyMetadata, LazyNft, LoadNftInput, Metadata, Metaplex, Nft, TokenProgram, toMintAccount, toOriginalOrPrintEditionAccount } from "@metaplex-foundation/js";
 import { clusterApiUrl, Commitment, Connection, PublicKey } from "@solana/web3.js";
 import { useState } from "react";
-import { Box, Flex, Image, Text, Wrap, WrapItem } from "@chakra-ui/react";
+import { Badge, Box, Container, Flex, Grid, HStack, Image, SimpleGrid, Stack, Text, VStack, Wrap, WrapItem } from "@chakra-ui/react";
 
 const connection = new Connection(clusterApiUrl("mainnet-beta"));
 const mx = Metaplex.make(connection);
 
 function NftListTest() {
   const [address, setAddress] = useState(
-    "3sEbhF2jnNs5RB2ohFunmCiywFgHZokLWwSxGGAsmWMd"
+    "8hTYASw98ZCZJwuEF9apPhmQTW7TYaoh9AnJfeV2X5tx"
   );
-  const [nft, setNft] = useState<Metadata | null>(null);
+  const [nftMetadata, setMetadata] = useState<Metadata[] | null>(null);
+  const [load, setLoad] = useState<Metadata[] | null>(null);
   const fetchNft = async () => {
     const nft = await mx.nfts().findAllByOwner(new PublicKey(address)).run()
 
-    const metadata: (Metadata | null)[] = await Promise.all(nft.map(async (nftLazy) => {
-      try {
-        let lazyMetadata: any = {
-          ...nftLazy,
-          model: 'metadata',
-          address: nftLazy.metadataAddress,
-        };
+    const metadata: Metadata[] = await Promise.all(nft.map(async (nftLazy) => {
+      let lazyMetadata: any = {
+        ...nftLazy,
+        model: 'metadata',
+        address: nftLazy.metadataAddress,
+      };
 
-        const data = await mx
-          .nfts()
-          .loadMetadata(lazyMetadata)
-          .run();
-          
-        return data;
+      const data = await mx
+        .nfts()
+        .loadMetadata(lazyMetadata)
+        .run();
 
-      } catch (e) {
-        return null;
-      }
+      return data;
 
     }))
 
     console.log(metadata);
 
-    setNft(metadata[1]);
+    setMetadata(metadata);
 
   };
 
   return (
-    <div className="App">
-      <div className="container">
-        <h1 className="title">NFT Mint Address</h1>
-        <div className="nftForm">
-          <input
-            type="text"
-            value={address}
-            onChange={(event) => setAddress(event.target.value)}
-          />
-          <button onClick={fetchNft}>Fetch</button>
-        </div>
-        {nft && (
-          <div className="nftPreview">
-            <h1>{nft.name}</h1>
-            <Box w='250px' bg='#27293d' borderRadius={10}>
-              <Image
-                m={2} mx={'auto'} w='90%' h='70%'
-                borderTopStartRadius={10}
-                borderTopEndRadius={10}
-                border='1px solid whitesmoke'
-                objectFit='cover'
-              src={nft.json?.image}
-              alt="The downloaded illustration of the provided NFT address."
-            />
-            </Box>
-          </div>
-        )}
-      </div>
+    <div>
+      <Box p='10px'>
+        <input
+          type="text"
+          value={address}
+          onChange={(event) => setAddress(event.target.value)}
+        />
+        <button onClick={fetchNft}>Fetch</button>
+      </Box>
+
+
+      <Flex
+        direction="column"
+        justifyContent="center"
+      >
+        <Grid
+          w="full"
+          gridGap="5"
+          gridTemplateColumns="repeat( auto-fit, minmax(250px, 1fr) )">
+
+          {nftMetadata?.map((nft) => (
+            <Stack border='1px solid white' className="img-container">
+
+                  <Image
+                    objectFit={'contain'}
+                    width='100%'
+                    height='100%'
+                    src={nft.json?.image}
+                    alt="The downloaded illustration of the provided NFT address."
+                  />
+                  <Text color={'white'} fontSize={12} align={'center'}> <strong>{nft.name}</strong> </Text>
+            </Stack>
+          ))}
+        </Grid>
+      </Flex>
     </div>
   );
 }

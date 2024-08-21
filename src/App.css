@@ -1,6 +1,12 @@
-.App {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+.img-container {
+  overflow: hidden;
+}
+
+.img-container img {
+  width: 450px;
+  transition: transform 0.7s;
+}
+
+.img-container img:hover {
+  transform: scale(1.25);
+}
