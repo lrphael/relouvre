@@ -11,26 +11,22 @@ import NewsHeader from "../../components/dashboard/news-header";
 import { SendOneLamportToRandomAddress } from "../../contexts/send";
 import { Metaplex, keypairIdentity, bundlrStorage } from "@metaplex-foundation/js";
 import { Connection, clusterApiUrl, Keypair, PublicKey } from "@solana/web3.js";
-import NftListTest from "../../components/dashboard/nftlisttest";
-import { useWallet } from "@solana/wallet-adapter-react";
+
+const main = async() => {
+  const connection = new Connection(clusterApiUrl("mainnet-beta"));
+  const wallet = Keypair.generate();
+
+  const metaplex = Metaplex.make(connection)
+      .use(keypairIdentity(wallet))
+      .use(bundlrStorage());
+
+  const owenerPublicKey = new PublicKey("3sEbhF2jnNs5RB2ohFunmCiywFgHZokLWwSxGGAsmWMd");
+  const myNfts = await metaplex.nfts().findAllByOwner(owenerPublicKey).run()
+  console.log(myNfts);
+};
 
 export default function Dashboard() {
-  
-  const publicKey = useWallet().publicKey;
-  
-  const dispatch = useDispatch();
-  const { setLeftMenuState } = bindActionCreators(dashboardActions, dispatch);
-  const dashboardState = useSelector((state: State) => state.dashboard);
-
-  if (!dashboardState.leftMenuShow) {
-    setLeftMenuState(
-      {
-        ...dashboardState,
-        leftMenuShow: true
-      }
-    );
-  }
-
+  main()
   const leftBarW = '15%'
   return (
     <div className="Dashboard"
